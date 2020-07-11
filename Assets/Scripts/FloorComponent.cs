@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
-public struct MoveSpeedComponent : IComponentData
+public struct FloorComponent : IComponentData
 {
-    public float moveSpeedX;
-    public float moveSpeedY;
+    public float floorY;
+    public bool floored;
 }

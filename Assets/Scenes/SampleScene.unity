@@ -232,8 +232,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927708448ba865b45b5cd63bd3b58014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
-  material: {fileID: 2100000, guid: 2a6bb3d24037d3b4fb090188b0be72f9, type: 2}
+  playerMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  playerMaterial: {fileID: 2100000, guid: 2a6bb3d24037d3b4fb090188b0be72f9, type: 2}
+  objectMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  objectMaterial: {fileID: 2100000, guid: 1050fb6e62131ca43ad68d8be40ce8f5, type: 2}
 --- !u!4 &687291395
 Transform:
   m_ObjectHideFlags: 0

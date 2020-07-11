@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
-public struct MoveSpeedComponent : IComponentData
+public struct ObjectComponent : IComponentData
 {
-    public float moveSpeedX;
-    public float moveSpeedY;
+    public float id;
 }
