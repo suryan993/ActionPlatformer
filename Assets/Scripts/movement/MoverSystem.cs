@@ -8,18 +8,15 @@ using Unity.Mathematics;
 public class MoverSystem : ComponentSystem
 {
     protected override void OnUpdate()
-    {
-        //Get Input
-        int keyLeft = 0;
-        int keyRight = 0;
-        int keyUp = 0;
+    {   
+        float horizontal = 0;
+        float vertical = 0;       
         float mouseX = 0;
         float mouseY = 0;
         Entities.ForEach((ref InputComponent inputComponent) =>
         {
-            keyLeft = inputComponent.keyLeft;
-            keyRight = inputComponent.keyRight;
-            keyUp = inputComponent.keyUp;
+            horizontal = inputComponent.horizontal;
+            vertical = inputComponent.vertical;
             mouseX = inputComponent.mouseX;
             mouseY = inputComponent.mouseY;
         });
@@ -34,30 +31,24 @@ public class MoverSystem : ComponentSystem
         //Horizontal move of player entities
         Entities.ForEach((ref Translation translation, ref MoveSpeedComponent moveSpeedComponent, ref PlayerComponent playerComponent, ref FloorComponent floorComponent) =>
         {
+            float newSpeed = moveSpeedComponent.moveSpeedX;
             if (floorComponent.floored)
             {
-                moveSpeedComponent.moveSpeedX += (-playerComponent.acceleration * keyLeft * Time.deltaTime) + (playerComponent.acceleration * keyRight * Time.deltaTime);
+                newSpeed += playerComponent.acceleration * horizontal * Time.deltaTime;
             } else
             {
-                moveSpeedComponent.moveSpeedX += (-playerComponent.acceleration * keyLeft * Time.deltaTime) + (playerComponent.acceleration * keyRight * Time.deltaTime) * 0.5f;
+                newSpeed +=  playerComponent.acceleration * horizontal * Time.deltaTime * 0.5f;
             }
 
-            if(moveSpeedComponent.moveSpeedX > playerComponent.maxSpeed)
-            {
-                moveSpeedComponent.moveSpeedX = playerComponent.maxSpeed;
-            }
-
-            if (moveSpeedComponent.moveSpeedX < -playerComponent.maxSpeed)
-            {
-                moveSpeedComponent.moveSpeedX = -playerComponent.maxSpeed;
-            }
+            float adjustedSpeed = Mathf.Clamp(newSpeed, - playerComponent.maxSpeed, playerComponent.maxSpeed);
+            moveSpeedComponent.moveSpeedX = adjustedSpeed;
 
         });
 
         //Jump Speed and action of player entities
         Entities.ForEach((ref Translation translation, ref MoveSpeedComponent moveSpeedComponent, ref PlayerComponent playerComponent, ref FloorComponent floorComponent) =>
         {
-            if (floorComponent.floored && keyUp == 1)
+            if (floorComponent.floored && vertical > 0)
             {
                 moveSpeedComponent.moveSpeedY = playerComponent.jumpVelocity;
                 floorComponent.floored = false;

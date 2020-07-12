@@ -90,9 +90,9 @@ public class Game : MonoBehaviour
             entityManager.SetComponentData(entity,
                 new PlayerComponent
                 {
-                    acceleration = 35.0f,
+                    acceleration = 45.0f,
                     maxSpeed = 10.0f,
-                    jumpVelocity = 15.0f
+                    jumpVelocity = 12.0f
                 }
                 );
 
@@ -171,9 +171,8 @@ public class Game : MonoBehaviour
             entityManager.SetComponentData(entity,
                 new InputComponent
                 {
-                    keyLeft = 0,
-                    keyRight = 0,
-                    keyUp = 0,
+                    horizontal = 0,
+                    vertical = 0,
                     mouseX = 0.0f,
                     mouseY = 0.0f
                 }
