@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
-public struct MoveSpeedComponent : IComponentData
+public struct FrictionComponent : IComponentData
 {
-    public float moveSpeed;
+    public float friction;
 }
