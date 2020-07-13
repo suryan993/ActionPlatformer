@@ -5,7 +5,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 
-public class KeyboardInputSystem : ComponentSystem
+public class InputSystem : ComponentSystem
 {
     protected override void OnUpdate()
     {

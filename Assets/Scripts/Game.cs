@@ -9,14 +9,29 @@ using Unity.Rendering;
 public class Game : MonoBehaviour
 {
 
-    [SerializeField] private Mesh playerMesh;
-    [SerializeField] private Material playerMaterial;
+    //[SerializeField] private Mesh playerMesh;
+    //[SerializeField] private Material playerMaterial;
 
-    [SerializeField] private Mesh objectMesh;
-    [SerializeField] private Material objectMaterial;
+    //[SerializeField] private Mesh objectMesh;
+    //[SerializeField] private Material objectMaterial;
+
+    public PlayerAssetData playerData;
+    public ObjectAssetData objectData;
 
     private EntityManager entityManager;
 
+    private static Game instance;
+
+    public static Game GetInstance()
+    {
+        return instance;
+    }
+
+
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
         entityManager = World.Active.EntityManager;
@@ -34,10 +49,9 @@ public class Game : MonoBehaviour
     {
         EntityArchetype playerArchetype = entityManager.CreateArchetype(
             typeof(Translation),
-            typeof(RenderMesh),
-            typeof(LocalToWorld),
             typeof(MoveSpeedComponent),
             typeof(PlayerComponent),
+            typeof(SpriteSheetComponent),
             typeof(GravityComponent),
             typeof(FloorComponent),
             typeof(FrictionComponent)
@@ -96,13 +110,13 @@ public class Game : MonoBehaviour
                 }
                 );
 
-            entityManager.SetSharedComponentData(entity,
-                new RenderMesh
+            entityManager.SetComponentData(entity,
+                new SpriteSheetComponent
                 {
-                    mesh = playerMesh,
-                    material = playerMaterial
+                    sprite = true
                 }
                 );
+
         }
 
         entityArray.Dispose();
@@ -112,9 +126,8 @@ public class Game : MonoBehaviour
     {
         EntityArchetype objectArchetype = entityManager.CreateArchetype(
             typeof(Translation),
-            typeof(RenderMesh),
-            typeof(LocalToWorld),
             typeof(ObjectComponent),
+            typeof(SpriteSheetComponent),
             typeof(RevolveComponent)
         );
 
@@ -142,13 +155,13 @@ public class Game : MonoBehaviour
                 }
                 );
 
-            entityManager.SetSharedComponentData(entity,
-                new RenderMesh
+            entityManager.SetComponentData(entity,
+                new SpriteSheetComponent
                 {
-                    mesh = objectMesh,
-                    material = objectMaterial
+                    sprite = true
                 }
                 );
+
         }
 
         entityArray.Dispose();
