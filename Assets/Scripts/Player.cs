@@ -6,10 +6,14 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float maxSpeed;
     [SerializeField] private float acceleration;
+    [SerializeField] private float jumpVelocity;
+    [SerializeField] private float friction;
 
     private float speed = 0;
     private bool flipped = false;
     private bool floored = false;
+    private bool moving = false;
+    private bool stopped = false;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +32,13 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         bool right = horizontal > 0 ? true : false;
         bool left = horizontal < 0 ? true : false;
+        if(left || right)
+        {
+            moving = true;
+        } else
+        {
+            moving = false;
+        }
         bool space = Input.GetKeyDown(KeyCode.Space);
         Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
@@ -36,8 +47,11 @@ public class Player : MonoBehaviour
 
         float adjustedSpeed = Mathf.Clamp(speed, -maxSpeed, maxSpeed);
 
+        if (!moving)
+        {
+            adjustedSpeed = 0;
+        }
         speed = adjustedSpeed;
-
 
         if (left && !flipped)
         {
@@ -54,7 +68,7 @@ public class Player : MonoBehaviour
         if (floored && space)
         {
             gameObject.GetComponent<Animator>().SetBool("jumping", true);
-            gameObject.GetComponent<Rigidbody2D>().velocity += new Vector2(0f, 5.0f);
+            gameObject.GetComponent<Rigidbody2D>().velocity += new Vector2(0f, jumpVelocity);
             floored = false;
         }
 
